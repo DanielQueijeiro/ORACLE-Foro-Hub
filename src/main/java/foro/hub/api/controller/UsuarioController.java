@@ -38,7 +38,7 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<DatosListadoUsuario>> listadoCurso(@PageableDefault(size = 5) Pageable paginacion) {
+    public ResponseEntity<Page<DatosListadoUsuario>> listadoUsuario(@PageableDefault(size = 5) Pageable paginacion) {
         return ResponseEntity.ok(usuarioRepository.findAll(paginacion).map(DatosListadoUsuario::new));
     }
 }

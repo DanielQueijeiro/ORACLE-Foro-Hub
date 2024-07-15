@@ -44,6 +44,6 @@ public class RespuestasTopico {
     @Override
     public String toString() {
         return "[Mensaje: " + mensaje +
-                "Autor:" + (autor != null ? autor.getNombre() : "null") + "]";
+                " | Autor:" + (autor != null ? autor.getNombre() : "null") + "]";
     }
 }

@@ -27,9 +27,4 @@ public class Curso {
         this.categoria = curso.categoria();
     }
 
-    public Curso actualizarDatos(DatosCurso curso) {
-        this.nombre = curso.nombre();
-        this.categoria = curso.categoria();
-        return this;
-    }
 }

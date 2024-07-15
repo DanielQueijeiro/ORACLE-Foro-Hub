@@ -68,13 +68,9 @@ public class Topico {
         this.respuestasTopico.add(respuestasTopico);
     }
 
-    public void statusRespondido() { this.status = true; }
 
     public Topico getTopico() {
         return this;
     }
 
-    public boolean isSolucion() {
-        return this.status;
-    }
 }

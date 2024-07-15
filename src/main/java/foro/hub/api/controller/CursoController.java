@@ -4,7 +4,6 @@ import foro.hub.api.domain.cursos.Curso;
 import foro.hub.api.domain.cursos.CursoRepository;
 import foro.hub.api.domain.cursos.DatosCurso;
 import foro.hub.api.domain.cursos.DatosListadoCurso;
-import foro.hub.api.domain.topico.DatosListadoTopico;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

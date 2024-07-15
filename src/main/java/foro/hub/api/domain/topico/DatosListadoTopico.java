@@ -1,8 +1,5 @@
 package foro.hub.api.domain.topico;
 
-import foro.hub.api.domain.cursos.Curso;
-
-import foro.hub.api.domain.usuarios.Usuario;
 
 import java.time.LocalDateTime;
 
