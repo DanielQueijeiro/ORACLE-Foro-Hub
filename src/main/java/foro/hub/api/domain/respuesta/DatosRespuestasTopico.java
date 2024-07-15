@@ -5,6 +5,11 @@ import foro.hub.api.domain.usuarios.Usuario;
 
 import java.time.LocalDateTime;
 
-public record DatosRespuestasTopico(Long id, String mensaje, Topico topico, LocalDateTime fechaCreacion, Usuario autor,
-                                    boolean solucion) {
+public record DatosRespuestasTopico(
+        String mensaje,
+        LocalDateTime fechaCreacion,
+        Long topicoId,
+        Long autorId,
+        String autorNombre) {
+
 }

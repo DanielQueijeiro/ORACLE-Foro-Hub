@@ -64,8 +64,8 @@ public class Topico {
         this.fechaCreacion = LocalDateTime.now();
     }
 
-    public void agregarRespuesta(DatosRespuestasTopico datosRespuestasTopico) {
-        this.respuestasTopico.add(new RespuestasTopico(datosRespuestasTopico));
+    public void agregarRespuesta(RespuestasTopico respuestasTopico) {
+        this.respuestasTopico.add(respuestasTopico);
     }
 
     public void statusRespondido() { this.status = true; }

@@ -9,6 +9,5 @@ public record DatosRegresoTopicoIndividual(
         String respuesta,
         LocalDateTime fechaCreacion,
         String autorNombre,
-        String cursoNombre
-) {
+        String cursoNombre) {
 }

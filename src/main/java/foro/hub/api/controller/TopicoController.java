@@ -2,11 +2,14 @@ package foro.hub.api.controller;
 
 import foro.hub.api.domain.respuesta.DatosRespuestasTopico;
 import foro.hub.api.domain.topico.*;
+import foro.hub.api.domain.usuarios.Usuario;
+import foro.hub.api.domain.usuarios.UsuarioRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +23,8 @@ public class TopicoController {
 
     @Autowired
     private TopicoRepository topicoRepository;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     @Autowired
     private TopicoService topicoService;
@@ -42,10 +47,11 @@ public class TopicoController {
     @Transactional
     public ResponseEntity<DatosRegresoTopicoIndividual> registrarRespuesta(@PathVariable Long id, @RequestBody @Valid DatosRespuestasTopico datosRespuestasTopico,
                                                                         UriComponentsBuilder uriComponentsBuilder) {
-        Topico topico = topicoRepository.getReferenceById(id);
-        topico.agregarRespuesta(datosRespuestasTopico);
+
+        Topico topico = topicoService.agregarRespuesta(id, datosRespuestasTopico);
+        Usuario autor = usuarioRepository.findById(datosRespuestasTopico.autorId()).get();
         return ResponseEntity.ok(new DatosRegresoTopicoIndividual(topico.getId(), topico.getTitulo(),
-                topico.getMensaje(), datosRespuestasTopico.mensaje(), topico.getFechaCreacion(), topico.getAutor().getNombre(),
+                topico.getMensaje(), datosRespuestasTopico.mensaje(), topico.getFechaCreacion(), autor.getNombre(),
                 topico.getCurso().getNombre()));
     }
 
@@ -53,6 +59,24 @@ public class TopicoController {
     @GetMapping
     public ResponseEntity<Page<DatosListadoTopico>> listadoTopicos(@PageableDefault(size = 5) Pageable paginacion) {
         return ResponseEntity.ok(topicoRepository.findAll(paginacion).map(DatosListadoTopico::new));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DatosRegresoTopicoIndividual> retornaDatosTopico(@PathVariable Long id) {
+        Topico topico = topicoRepository.getReferenceById(id);
+        var datosTopico = new DatosRegresoTopicoIndividual(topico.getId(), topico.getTitulo(),
+                topico.getMensaje(), topico.getRespuestasTopico().toString(),topico.getFechaCreacion(),
+                topico.getAutor().getNombre(), topico.getCurso().getNombre());
+
+        return ResponseEntity.ok(datosTopico);
+    }
+
+    @GetMapping("/top")
+    public ResponseEntity<Page<DatosListadoTopico>> listadoTopicosTop10
+            (@PageableDefault(size = 5, sort = "fechaCreacion", direction = Sort.Direction.ASC) Pageable paginacion) {
+        var sortedByDate = topicoRepository.findAll(paginacion).map(DatosListadoTopico::new);
+        sortedByDate.stream().limit(10);
+        return ResponseEntity.ok(sortedByDate);
     }
 
     @PutMapping
@@ -72,14 +96,6 @@ public class TopicoController {
         return ResponseEntity.ok("El topico: '" + topico.getTitulo() + "' ha sido eliminado");
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<DatosRegresoTopicoIndividual> retornaDatosTopico(@PathVariable Long id) {
-        Topico topico = topicoRepository.getReferenceById(id);
-        var datosTopico = new DatosRegresoTopicoIndividual(topico.getId(), topico.getTitulo(),
-                topico.getMensaje(), topico.getRespuestasTopico().toString(),topico.getFechaCreacion(),
-                topico.getAutor().getNombre(), topico.getCurso().getNombre());
 
-        return ResponseEntity.ok(datosTopico);
-    }
 
 }

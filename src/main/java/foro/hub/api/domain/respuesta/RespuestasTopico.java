@@ -35,10 +35,15 @@ public class RespuestasTopico {
     @JoinColumn(name = "topicoId")
     private Topico topico;
 
-    public RespuestasTopico(DatosRespuestasTopico datosRespuestasTopico) {
+    public RespuestasTopico(DatosRespuestasTopico datosRespuestasTopico, Usuario autor, Topico topico) {
         this.mensaje = datosRespuestasTopico.mensaje();
-        this.autor = datosRespuestasTopico.autor();
-        this.topico = datosRespuestasTopico.topico();
-        this.solucion = datosRespuestasTopico.solucion();
+        this.autor = autor;
+        this.topico = topico;
+    }
+
+    @Override
+    public String toString() {
+        return "[Mensaje: " + mensaje +
+                "Autor:" + (autor != null ? autor.getNombre() : "null") + "]";
     }
 }
