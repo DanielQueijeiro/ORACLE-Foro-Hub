@@ -1,0 +1,1 @@
+INSERT INTO usuario (id, nombre, correoElectronico, contrasena) VALUES (1, 'admin', 'admin@test.com', 'admin');
